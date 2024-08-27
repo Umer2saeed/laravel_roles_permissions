@@ -6,7 +6,11 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ config('app.name', 'Laravel') }}</title>
-
+        <!-- stylesheet -->
+        <link
+            rel="stylesheet"
+            href="https://unpkg.com/@material-tailwind/html@latest/styles/material-tailwind.css"
+        />
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -37,4 +41,6 @@
         {{ $script }}
     @endisset
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <!-- script -->
+    <script src="https://unpkg.com/@material-tailwind/html@latest/scripts/material-tailwind.js"></script>
 </html>

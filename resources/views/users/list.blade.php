@@ -2,11 +2,8 @@
     <x-slot name="header">
         <div class="flex justify-between">
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Permissions') }}
+                {{ __('Users') }}
             </h2>
-            @can('create permissions')
-                <a href="{{ route('permissions.create') }}" class="shadow bg-gray-500 hover:bg-gray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-full">Create</a>
-            @endcan
         </div>
     </x-slot>
 
@@ -20,28 +17,30 @@
                         <tr class="border-b">
                             <th class="px-6 py-3 text-left">#</th>
                             <th class="px-6 py-3 text-left">Name</th>
+                            <th class="px-6 py-3 text-left">Email</th>
+                            <th class="px-6 py-3 text-left">Roles</th>
                             <th class="px-6 py-3 text-left">Created At</th>
                             <th class="px-6 py-3 text-center">Action</th>
                         </tr>
                         </thead>
                         <tbody class="bg-white">
-                        @if($permissions->isNotEmpty())
-                            @foreach($permissions as $permission)
+                        @if($users->isNotEmpty())
+                            @foreach($users as $user)
                                 <tr class="border-b">
-                                    <td class="px-6 py-3 text-left" style="width: 50px">{{ $permission->id }}</td>
-                                    <th class="px-6 py-3 text-left">{{ $permission->name }}</th>
-                                    <td class="px-6 py-3 text-left" style="width: 180px">{{ \Carbon\Carbon::parse($permission->created_at)->format('d M, Y') }}</td>
+                                    <td class="px-6 py-3 text-left" style="width: 50px">{{ $user->id }}</td>
+                                    <th class="px-6 py-3 text-left">{{ $user->name }}</th>
+                                    <td class="px-6 py-3 text-left">{{ $user->email }}</td>
+                                    <td class="px-6 py-3 text-left">{{ $user->roles->pluck('name')->implode(', ') }}</td>
+                                    <td class="px-6 py-3 text-left" style="width: 180px">{{ \Carbon\Carbon::parse($user->created_at)->format('d M, Y') }}</td>
                                     <td class="flex justify-center px-6 py-3 text-center">
-                                        @can('edit permissions')
-                                            <a href="{{ route('permissions.edit', $permission->id) }}">
+                                        @can('edit users')
+                                            <a href="{{ route('users.edit', $user->id) }}">
                                                 <img width="40" src="{{ asset('assets/images/edit-2.svg') }}" alt="">
                                             </a>
                                         @endcan
-                                        @can('delete permissions')
-                                        <a href="javascript:void(0);" onclick="deletePermission({{ $permission->id }})">
-                                            <img width="40" src="{{ asset('assets/images/delete-2.svg') }}" alt="">
-                                        </a>
-                                        @endcan
+{{--                                        <a href="javascript:void(0);" onclick="deleteUser({{ $user->id }})">--}}
+{{--                                            <img width="40" src="{{ asset('assets/images/delete-2.svg') }}" alt="">--}}
+{{--                                        </a>--}}
                                     </td>
                                 </tr>
                             @endforeach
@@ -49,7 +48,7 @@
                         </tbody>
                     </table>
                     <div class="my-3">
-                        {{ $permissions->links() }}
+                        {{ $users->links() }}
                     </div>
                 </div>
             </div>
@@ -58,10 +57,10 @@
 
     <x-slot name="script">
         <script type="text/javascript">
-            function deletePermission(id) {
+            function deleteUser(id) {
                 if(confirm("Are you sure you want to delete?")) {
                     $.ajax({
-                        url: '{{ route("permissions.destroy") }}',
+                        url: '{{ route("users.destroy") }}',
                         type: 'delete',
                         data: {id:id},
                         dataType: 'json',
@@ -69,7 +68,7 @@
                             'X-CSRF-TOKEN': '{{ csrf_token() }}'
                         },
                         success: function (response) {
-                            window.location.href = '{{ route("permissions.index") }}'
+                            window.location.href = '{{ route("users.index") }}'
                         }
                     });
                 }

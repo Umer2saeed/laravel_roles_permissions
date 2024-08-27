@@ -4,7 +4,9 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Articles') }}
             </h2>
-            <a href="{{ route('articles.create') }}" class="shadow bg-gray-500 hover:bg-gray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-full">Create</a>
+            @can('create articles')
+                <a href="{{ route('articles.create') }}" class="shadow bg-gray-500 hover:bg-gray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-full">Create</a>
+            @endcan
         </div>
     </x-slot>
 
@@ -34,12 +36,20 @@
                                     <td class="px-6 py-3 text-left">{{ $article->author }}</td>
                                     <td class="px-6 py-3 text-left" style="width: 150px">{{ \Carbon\Carbon::parse($article->created_at)->format('d M, Y') }}</td>
                                     <td class="flex justify-center px-6 py-3 text-center">
-                                        <a href="{{ route('articles.edit', $article->id) }}">
-                                            <img width="40" src="{{ asset('assets/images/edit-2.svg') }}" alt="">
-                                        </a>
-                                        <a href="javascript:void(0);" onclick="deleteArticle({{ $article->id }})">
-                                            <img width="40" src="{{ asset('assets/images/delete-2.svg') }}" alt="">
-                                        </a>
+                                        @can('edit articles')
+                                            <a class="group flex relative" href="{{ route('articles.edit', $article->id) }}">
+                                                <img width="40" src="{{ asset('assets/images/edit-2.svg') }}" alt="">
+                                                <span class="group-hover:opacity-100 transition-opacity bg-blue-400 px-1 text-sm text-gray-100 rounded-sm absolute left-1/2
+    -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto">Edit</span>
+                                            </a>
+                                        @endcan
+                                        @can('delete articles')
+                                            <a class="group flex relative" href="javascript:void(0);" onclick="deleteArticle({{ $article->id }})">
+                                                <img width="40" src="{{ asset('assets/images/delete-2.svg') }}" alt="">
+                                                <span class="group-hover:opacity-100 transition-opacity bg-red-400 spx-1 text-sm text-gray-100 rounded-sm absolute left-1/2
+    -translate-x-1/2 translate-y-full opacity-0 m-4 mx-auto">Delete</span>
+                                            </a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach

@@ -4,7 +4,9 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Roles') }}
             </h2>
-            <a href="{{ route('roles.create') }}" class="shadow bg-gray-500 hover:bg-gray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-full">Create</a>
+            @can('create roles')
+                <a href="{{ route('roles.create') }}" class="shadow bg-gray-500 hover:bg-gray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-full">Create</a>
+            @endcan
         </div>
     </x-slot>
 
@@ -34,12 +36,16 @@
                                     </td>
                                     <td class="px-6 py-3 text-left" style="width: 180px">{{ \Carbon\Carbon::parse($role->created_at)->format('d M, Y') }}</td>
                                     <td class="flex justify-center px-6 py-3 text-center">
-                                        <a href="{{ route('roles.edit', $role->id) }}">
-                                            <img width="40" src="{{ asset('assets/images/edit-2.svg') }}" alt="">
-                                        </a>
-                                        <a href="javascript:void(0);" onclick="deleteRole({{ $role->id }})">
-                                            <img width="40" src="{{ asset('assets/images/delete-2.svg') }}" alt="">
-                                        </a>
+                                        @can('edit roles')
+                                            <a href="{{ route('roles.edit', $role->id) }}">
+                                                <img width="40" src="{{ asset('assets/images/edit-2.svg') }}" alt="">
+                                            </a>
+                                        @endcan
+                                        @can('delete roles')
+                                            <a href="javascript:void(0);" onclick="deleteRole({{ $role->id }})">
+                                                <img width="40" src="{{ asset('assets/images/delete-2.svg') }}" alt="">
+                                            </a>
+                                        @endcan
                                     </td>
                                 </tr>
                             @endforeach
