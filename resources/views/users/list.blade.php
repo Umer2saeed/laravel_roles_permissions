@@ -4,6 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ __('Users') }}
             </h2>
+            <a href="{{ route('users.create') }}" class="shadow bg-gray-500 hover:bg-gray-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded-full">Create</a>
         </div>
     </x-slot>
 
@@ -38,9 +39,9 @@
                                                 <img width="40" src="{{ asset('assets/images/edit-2.svg') }}" alt="">
                                             </a>
                                         @endcan
-{{--                                        <a href="javascript:void(0);" onclick="deleteUser({{ $user->id }})">--}}
-{{--                                            <img width="40" src="{{ asset('assets/images/delete-2.svg') }}" alt="">--}}
-{{--                                        </a>--}}
+                                        <a href="javascript:void(0);" onclick="deleteUser({{ $user->id }})">
+                                            <img width="40" src="{{ asset('assets/images/delete-2.svg') }}" alt="">
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
